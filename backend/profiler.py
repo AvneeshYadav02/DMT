@@ -164,11 +164,11 @@ def plot_cardinality(df):
 
 # MEMORY
 def analyze_memory_usage(df):
-    mem = df.memory_usage(deep=True)
+    mem = df.memory_usage()
     return {"total_memory_mb": mem.sum()/1024**2}
 
 def plot_memory_usage(df):
-    mem = df.memory_usage(deep=True)/1024**2
+    mem = df.memory_usage()/1024**2
     fig = px.bar(x=mem.index, y=mem.values,
                  title="💾 Memory Usage (MB)")
     return apply_modern_theme(fig)

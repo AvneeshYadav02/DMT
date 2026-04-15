@@ -44,14 +44,20 @@ st.markdown(
 )
 st.divider()
 
+@st.cache_resource
+def train_model(X, y):
+    model = RandomForestClassifier(n_estimators=50, max_depth=10) 
+    model.fit(X, y)
+    return model
+
 
 # HELPERS
 def show_table(df, h=350):
     st.dataframe(df, use_container_width=True, height=h)
 
-
+@st.cache_data
 def load_file(file):
-    name = file.name.lower()
+    name = file.name.lower()    
     if name.endswith(".csv"):
         return pd.read_csv(file)
     elif name.endswith((".xlsx", ".xls")):
@@ -208,8 +214,7 @@ if file:
                         X, y, test_size=0.3, random_state=42
                     )
 
-                    model = RandomForestClassifier()
-                    model.fit(X_train, y_train)
+                    model = train_model(X_train, y_train)
                     preds = model.predict(X_test)
 
                     # Classification report
